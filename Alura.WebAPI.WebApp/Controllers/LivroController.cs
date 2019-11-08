@@ -48,10 +48,16 @@ namespace Alura.ListaLeitura.WebApp.Controllers
             return File("~/images/capas/capa-vazia.png", "image/png");
         }
 
+
+        public Livro recuperaLivro(int id)
+        {
+            return _repo.Find(id);
+        }
+
         [HttpGet]
         public IActionResult Detalhes(int id)
         {
-            var model = _repo.Find(id);
+            var model = recuperaLivro(id);
             if (model == null)
             {
                 return NotFound();
@@ -63,13 +69,25 @@ namespace Alura.ListaLeitura.WebApp.Controllers
         [HttpGet]
         public IActionResult DetalhesSemHtml(int id)
         {
-            var model = _repo.Find(id);
+            var model = recuperaLivro(id);
             if (model == null)
             {
                 return NotFound();
             }
             return Json(model.ToModel());
         }
+
+        //Esse tipo de retorno permite que possamos retornar ou um ActionResult ou um objeto LivroUpload
+        public ActionResult<LivroUpload> DetalhesJson(int id)
+        {
+            var model = _repo.Find(id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return model.ToModel();
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
