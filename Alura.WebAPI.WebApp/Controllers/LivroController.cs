@@ -66,16 +66,6 @@ namespace Alura.ListaLeitura.WebApp.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult DetalhesSemHtml(int id)
-        {
-            var model = recuperaLivro(id);
-            if (model == null)
-            {
-                return NotFound();
-            }
-            return Json(model.ToModel());
-        }
 
         //Esse tipo de retorno permite que possamos retornar ou um ActionResult ou um objeto LivroUpload
         public ActionResult<LivroUpload> DetalhesJson(int id)
